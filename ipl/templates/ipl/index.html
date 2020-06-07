@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block content %}
+   
+
+    <script>
+  $( function() {
+    $( "#tabs" ).tabs();
+  } );
+  </script>
+</head>
+<body>
+ 
+<div id="tabs">
+  <ul>
+  	{% for season in seasons %}
+  	    <li><a href="#{{season}}">{{season}}</a></li>
+  	{% endfor %}
+   
+  </ul>
+  {% for season in seasons %}
+  	    <div id="{{season}}">
+        <h2>Top 4:</h2> 
+         <table>
+		 </table>
+         <div>
+         <h2>Toss</h2>  <div class="toss"></div>
+         </div>
+         <div>
+        <h2> MOM</h2>  <div class="mom"></div>
+         </div>
+         <div>
+        <h2> Winner venue </h2> <div class="winner_venue"></div>
+         </div>
+         <div>
+        <h2> Winner venue </h2> <div class="toss_and_bat"></div>
+         </div>
+
+         <div>
+        <h2> Toss and bat</h2>  <div class="toss_and_bat"></div>
+         </div>
+
+         <div>
+         <h2>Most win by wickets </h2> <div class="win_by_wickets"></div>
+         </div>
+
+         <div>
+        <h2>toss and win </h2> <div class="toss_and_win"></div>
+         </div>
+
+          <div>
+       <h2> most catch in one match</h2>  <div class="most_catch"></div>
+         </div>
+
+
+  	    </div>
+  {% endfor %}
+  
+</div>
+    <script type="text/javascript">
+    $("#tabs").on( "tabsactivate", function(event,ui){
+        populate();
+    });  
+
+    $(document).ready(function(){
+    	populate();
+    })
+	function populate(){
+	       var year = $("#tabs .ui-tabs-panel:visible").attr("id");
+	       var table = "<tr>"
+				    +"<th>Team</th>"
+				    +"<th>win</th>"
+				    +"</tr>"
+
+	       $.get("/stats",{"season":year}, function(data){
+	       	    window.ok = data
+	            $.each(data["data"]["winner"], function(i, item) {
+		            
+		            table = table + "<tr>"
+					    +"<td>"+i+"</td>"
+					    +"<td>"+item+"</td>"
+					    +"</tr>"
+					
+				});
+				$("#"+year+" table").html(table);
+				$.each(data["data"]["toss_winner"], function(i, item){
+	                $("#"+year+" .toss").html(i+"-"+item);
+				});
+				$.each(data["data"]["mom"], function(i, item){
+	                $("#"+year+" .mom").html(i+"-"+item);
+				})
+				$.each(data["data"]["winner_venue"], function(i, item){
+	                $("#"+year+" .winner_venue").html(i+"-"+item);
+				})
+
+				$.each(data["data"]["most_catch"], function(i, item){
+	                $("#"+year+" .most_catch").html(i+"-"+item);
+				})
+
+				
+	            $("#"+year+" .toss_and_bat").html(data["data"]["toss_and_bat"]);
+
+	            $("#"+year+" .win_by_wickets").html(data["data"]["win_by_wickets"]);
+
+	            $("#"+year+" .toss_and_win").html(data["data"]["toss_and_win"]);
+				
+	            
+
+	       })
+	}
+   
+    </script>
+{% endblock %}
+
+
+
+
+
