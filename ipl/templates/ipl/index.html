@@ -41,6 +41,9 @@
          <div>
          <h2>Most win by wickets </h2> <div class="win_by_wickets"></div>
          </div>
+          <div>
+         <h2>Most win by runs </h2> <div class="win_by_runs"></div>
+         </div>
 
          <div>
         <h2>toss and win </h2> <div class="toss_and_win"></div>
@@ -99,6 +102,7 @@
 	            $("#"+year+" .toss_and_bat").html(data["data"]["toss_and_bat"]);
 
 	            $("#"+year+" .win_by_wickets").html(data["data"]["win_by_wickets"]);
+              $("#"+year+" .win_by_runs").html(data["data"]["win_by_runs"]);
 
 	            $("#"+year+" .toss_and_win").html(data["data"]["toss_and_win"]);
 				
