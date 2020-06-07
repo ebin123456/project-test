@@ -30,6 +30,7 @@ def stats(request):
     out["mom"] = data.groupby('player_of_match')["id"].count().sort_values(ascending=False).head(1).to_dict()
     out["winner_venue"] = data[(data["winner"] == winner)].groupby('venue')["id"].count().sort_values(ascending=False).head(1).to_dict()
     out["toss_and_bat"] = data.groupby('toss_decision')[["id"]].count().apply(lambda x: x["bat"]/(x["bat"] + x["field"])).to_list()[0]
+    out["win_by_runs"] = data[(data["win_by_runs"]== data["win_by_runs"].max())]["winner"].to_list()[0]
     out["win_by_wickets"] = data[(data["win_by_wickets"]== data["win_by_wickets"].max())]["winner"].to_list()[0]
     out["toss_and_win"] = data[(data["winner"]== data["toss_winner"])]["id"].count()
     out["toss_and_win"] = int(out["toss_and_win"])
